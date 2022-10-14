@@ -284,6 +284,120 @@
 			return true;
 		}
 
+		function showPlotCtr(){
+			document.getElementById('plot').innerHTML = "";
+			d3.csv('knumCtr.csv', function(err, rows){
+				//t1=filterRows(rows, "Ecospirituality")
+				//console.log(r)
+				function unpack(rows, key, filter){
+					f=filterRows(rows,filter)
+					return f.map(function(f){return f[key];});
+				}
+				ecospirTrace = {
+					name: 'Ecospirituality',
+					x:unpack(rows, 'Place (x)', 'Ecospirituality'),
+					y:unpack(rows, 'Knowledge (y)', 'Ecospirituality'),
+					z:unpack(rows, 'Action (z)', 'Ecospirituality'),
+					mode: 'markers',
+					marker: {
+						size: 20,
+						opacity: 1.0,
+					//	color: 'rgb(238, 117, 47)'
+					},
+					type: 'scatter3d'
+				};
+				sibTrace = {
+					name: 'Small Green Steps',
+					x:unpack(rows, 'Place (x)', 'Small Green Steps'),
+					y:unpack(rows, 'Knowledge (y)', 'Small Green Steps'),
+					z:unpack(rows, 'Action (z)', 'Small Green Steps'),
+					mode: 'markers',
+					marker: {
+						size: 20,
+						opacity: 1.0,
+						//colorway: ['rgb(88, 165, 92)']
+					},
+					type: 'scatter3d'
+				};
+				scihumTrace = {
+					name: 'Science for Humanity',
+					x:unpack(rows, 'Place (x)', 'Science for Humanity'),
+					y:unpack(rows, 'Knowledge (y)', 'Science for Humanity'),
+					z:unpack(rows, 'Action (z)', 'Science for Humanity'),
+					mode: 'markers',
+					marker: {
+						size: 20,
+						opacity: 1.0,
+						//colorway: ['rgb(238, 117, 47)', 'rgb(88, 165, 92)','rgb(242, 189, 66)']
+					},
+					type: 'scatter3d'
+				};
+				ijTrace = {
+					name: 'Indigenous Justice',
+					x:unpack(rows, 'Place (x)', 'Indigenous Justice'),
+					y:unpack(rows, 'Knowledge (y)', 'Indigenous Justice'),
+					z:unpack(rows, 'Action (z)', 'Indigenous Justice'),
+					mode: 'markers',
+					marker: {
+						size: 20,
+						opacity: 1.0,
+					//	colorway: ['rgb(238, 117, 47)', 'rgb(88, 165, 92)','rgb(242, 189, 66)']
+					},
+					type: 'scatter3d'
+				};
+				ecosciTrace = {
+					name: 'Ecoscience',
+					x:unpack(rows, 'Place (x)', 'Ecoscience'),
+					y:unpack(rows, 'Knowledge (y)', 'Ecoscience'),
+					z:unpack(rows, 'Action (z)', 'Ecoscience'),
+					mode: 'markers',
+					marker: {
+						size: 20,
+						opacity: 1.0,
+						//colorway: ['rgb(238, 117, 47)', 'rgb(88, 165, 92)','rgb(242, 189, 66)']
+					},
+					type: 'scatter3d'
+				};
+
+				var data = [sibTrace, ecosciTrace, ecospirTrace, ijTrace, scihumTrace  ];
+				var layout = {
+
+
+					showlegend: true,
+				  legend: {
+				    x: 1,
+				    y: 0.5
+				  },
+					colorway: ['rgb(88, 165, 92)','rgb(80, 134, 236)','rgb(238, 117, 47)','rgb(217, 80, 64)', 'rgb(242, 189, 66)'],
+
+					scene: {
+						xaxis:{
+							title: 'Place (x)',
+							range: [-1, 1]
+						},
+						yaxis:{
+							title: 'Knowledge (y)',
+							range: [-1, 1]
+						},
+						zaxis:{
+							title: 'Action (z)',
+							range: [-1, 1]
+						},
+						},
+					margin: {
+					l: 0,
+					r: 0,
+					b: 0,
+					t: 0
+
+				}};
+				Plotly.newPlot('plot', data, layout);
+			});
+			return true;
+
+
+
+		}
 
 
 		function showPlotAll(){
@@ -414,8 +528,9 @@
 		<button type="button" id="Indigenous Justice" onclick="ijPlot()">Indigenous Justice</button>
 		<button type="button" id="Science for Humanity" onclick="scihumPlot()">Science for Humanity</button>
 		<button type="button" id="All EcoTypes" onclick="showPlotAll()">Show all</button>
+		<button type="button" id="EcoTypes Centroids" onclick="showPlotCtrl()">Show centroids</button>
 	</div>
-	<h3 id="title">All EcoTypes</h3>
+	<h3 id="title">All EcoTypes (Top 4 Axes Unweighted)/h3>
 	<div id='plot' >
 
 	</div>
